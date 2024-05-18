@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Actor target;
-    public bool isFighting;
+    public bool isFighting = false;
     public AStar algorithm;
     //algorithm gelijkstelt aan het AStar component van dit script. 
     private void Start()
