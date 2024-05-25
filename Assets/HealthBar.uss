@@ -1,0 +1,6 @@
+.HealthBarStyleBackground {
+    left: 25px;
+    position: absolute;
+    bottom: 25px;
+    background-color: rgb(255, 0, 0);
+}

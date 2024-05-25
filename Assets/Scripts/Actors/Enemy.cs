@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 [RequireComponent(typeof(Actor), typeof(AStar))]
 public class Enemy : MonoBehaviour
 {
@@ -21,25 +22,20 @@ public class Enemy : MonoBehaviour
     }
     public void RunAI()
     {
-        Vector3Int gridPosition = MapManager.Get.FloorMap.WorldToCell(transform.position);
         // TODO: If target is null, set target to player (from gameManager) 
         if (target == null) { target = GameManager.Get.player; }
         // TODO: convert the position of the target to a gridPosition 
-        target.transform.position = gridPosition;
+        var gridPosition = MapManager.Get.FloorMap.WorldToCell(target.transform.position);
         // First check if already fighting, because the FieldOfView check costs more cpu 
         if (isFighting || GetComponent<Actor>().FieldOfView.Contains(gridPosition))
         {
             // TODO: If the enemy was not fighting, is should be fighting now 
-            foreach(var enemy in GameManager.Get.Enemies)
-            {
-                if (enemy != isFighting) 
-                {
-                     isFighting = true;
-                }
-            }
+            if (!isFighting) { isFighting = true; }
             // TODO: call MoveAlongPath with the gridPosition 
-            MoveAlongPath(gridPosition);
+            
         }
+        MoveAlongPath(gridPosition);
     }
 }
+
 //^(?([^\r\n])\s)*\r?$\r?\n

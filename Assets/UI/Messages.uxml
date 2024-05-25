@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 0; position: absolute; bottom: 0; flex-shrink: 0; align-self: center; width: 500px; height: 100px; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-size: 5px; -unity-font: url(&apos;project://database/Assets/UI/VIDEOPHREAK.ttf?fileID=12800000&amp;guid=c4f039c09fe3ae84498e2ff44ac3d569&amp;type=3#VIDEOPHREAK&apos;); text-overflow: clip; white-space: normal; -unity-text-align: upper-left; justify-content: space-between; align-items: flex-start; -unity-font-definition: url(&apos;project://database/Assets/UI/VIDEOPHREAK%20SDF.asset?fileID=11400000&amp;guid=71e43ff84c28aa94eb0ea8664089053a&amp;type=2#VIDEOPHREAK SDF&apos;);">
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label5" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label4" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label3" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label2" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label1" />
+    </ui:VisualElement>
+</ui:UXML>

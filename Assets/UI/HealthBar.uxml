@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/HealthBar.uss?fileID=7433441132597879392&amp;guid=fbeaba7ab7142804fa0a11a55fd7f7fb&amp;type=3#HealthBar" />
+    <ui:VisualElement style="flex-grow: 1; position: absolute; left: 25px; bottom: 25px; -unity-font-definition: url(&apos;project://database/Assets/UI/VIDEOPHREAK%20SDF.asset?fileID=11400000&amp;guid=71e43ff84c28aa94eb0ea8664089053a&amp;type=2#VIDEOPHREAK SDF&apos;);">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgb(255, 0, 0); height: 8px; width: 47px; justify-content: center; align-items: center; align-self: center;">
+            <ui:VisualElement name="HealthBar" style="flex-grow: 1; background-color: rgb(78, 120, 61); height: 100%; width: 50%; position: absolute; left: 0; top: 0; bottom: 0; -unity-text-align: upper-center; align-items: auto;" />
+            <ui:Label tabindex="-1" text="100/100" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 5px; height: 8px; width: 22px; -unity-text-align: middle-center; position: absolute; left: 11px; top: -4px; background-color: rgba(255, 255, 255, 0); -unity-background-image-tint-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

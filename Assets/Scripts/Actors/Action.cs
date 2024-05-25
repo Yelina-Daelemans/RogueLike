@@ -19,7 +19,7 @@ public class Action : MonoBehaviour
     }
     static private void EndTurn(Actor actor) 
     {
-        if(actor.GetComponent<Player>() != null) 
+        if(actor.GetComponent<Player>()) 
         {
             GameManager.Get.StartEnemyTurn();
         }
