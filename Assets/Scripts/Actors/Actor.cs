@@ -7,11 +7,13 @@ public class Actor : MonoBehaviour
     private AdamMilVisibility algorithm;
     public List<Vector3Int> FieldOfView = new List<Vector3Int>();
     public int FieldOfViewRange = 8;
-
     private void Start()
     {
+        
         algorithm = new AdamMilVisibility();
         UpdateFieldOfView();
+        if (GameManager.Get.player == this) { UIManager.Instance.UpdateHealth(hitPoints, maxHitPoints); }
+        
     }
 
     public void Move(Vector3 direction)
@@ -34,4 +36,41 @@ public class Actor : MonoBehaviour
             MapManager.Get.UpdateFogMap(FieldOfView);
         }
     }
+    [Header("Powers")]
+    [SerializeField] private int maxHitPoints;
+    [SerializeField] private int hitPoints;
+    [SerializeField] private int defense;
+    [SerializeField] private int power;
+    public int MaxHitPoints { get; private set; }
+    public int HitPoints { get; private set; }
+    public int Defense { get; private set; }
+    public int Power { get; private set; }
+    private void Die() 
+    {
+        if(GameManager.Get.player == this && GameManager.Get.player == null) { UIManager.Instance.AddMessage("You died", Color.red); }
+        foreach(var enemy in GameManager.Get.Enemies) 
+        { if (enemy == this && enemy == null) 
+            { UIManager.Instance.AddMessage($"{gameObject.name} is dead!", Color.green); 
+                GameManager.Get.RemoveEnemy(enemy);
+                Destroy(gameObject);
+            } 
+        }
+        Vector3 currentPosition = transform.position;
+        GameObject Grave = GameManager.Get.GetGameObject("Dead", new Vector2(currentPosition.x, currentPosition.y));
+        Grave.name = $"Remains of {gameObject.name}";
+    }
+    public void DoDamage(int hp) 
+    {
+        hp -= hitPoints;
+        if(hp < 0) { hp = 0; }
+        if (GameManager.Get.player == this) 
+        {
+            UIManager.Instance.UpdateHealth(hp, hitPoints);
+        }
+        if (hitPoints == 0) 
+        {
+            Die();
+        }
+    }
+
 }

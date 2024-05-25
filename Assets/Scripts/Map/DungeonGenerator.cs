@@ -70,7 +70,7 @@ public class DungeonGenerator : MonoBehaviour
             PlaceEnemies(room, maxEnemies);
             rooms.Add(room);
         }
-        var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
+        var player = GameManager.Get.GetGameObject("Player", rooms[0].Center());
     }
     private bool TrySetWallTile(Vector3Int pos)
     {
@@ -143,11 +143,11 @@ public class DungeonGenerator : MonoBehaviour
             // create different enemies 
             if (Random.value < 0.5f)
             {
-               GameManager.Get.CreateActor("Dog", new Vector2(x, y));
+               GameManager.Get.GetGameObject("Dog", new Vector2(x, y));
             }
             else
             {
-               GameManager.Get.CreateActor("Doggie", new Vector2(x, y));
+               GameManager.Get.GetGameObject("Doggie", new Vector2(x, y));
             }
         }
     }
