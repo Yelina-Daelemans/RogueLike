@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public List<Actor> Enemies = new List<Actor>();
+    public List<Consumable> Items = new List<Consumable>();
     public Actor player;
     private void Awake()
     {
@@ -56,5 +57,19 @@ public class GameManager : MonoBehaviour
             Destroy(enemy.gameObject); 
         }
         
+    }
+    public void AddItem(Consumable consumable) 
+    {
+        Items.Add(consumable);
+    }
+    public void RemoveItem(Consumable consume) 
+    {
+        Items.Remove(consume);
+    }
+    public Consumable GetItemAtLocation(Vector3 location) 
+    {
+        foreach (Consumable item in Items) { if (item.transform.position == location) { return item; } }
+        return null;
+       
     }
 }

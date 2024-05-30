@@ -12,7 +12,7 @@ public class Actor : MonoBehaviour
         
         algorithm = new AdamMilVisibility();
         UpdateFieldOfView();
-        if (GameManager.Get.player == this) { UIManager.Instance.UpdateHealth(hitPoints, maxHitPoints); }
+        if (GameManager.Get.player == this) { UIManager.Get.UpdateHealth(hitPoints, maxHitPoints); }
         
     }
 
@@ -47,10 +47,10 @@ public class Actor : MonoBehaviour
     public int Power { get; private set; }
     private void Die() 
     {
-        if(GameManager.Get.player == this && GameManager.Get.player == null) { UIManager.Instance.AddMessage("You died", Color.red); }
+        if(GameManager.Get.player == this && GameManager.Get.player == null) { UIManager.Get.AddMessage("You died", Color.red); }
         foreach(var enemy in GameManager.Get.Enemies) 
         { if (enemy == this && enemy == null) 
-            { UIManager.Instance.AddMessage($"{gameObject.name} is dead!", Color.green); 
+            { UIManager.Get.AddMessage($"{gameObject.name} is dead!", Color.green); 
                 GameManager.Get.RemoveEnemy(enemy);
                 Destroy(gameObject);
             } 
@@ -58,18 +58,15 @@ public class Actor : MonoBehaviour
         Vector3 currentPosition = transform.position;
         GameObject Grave = GameManager.Get.GetGameObject("Dead", new Vector2(currentPosition.x, currentPosition.y));
         Grave.name = $"Remains of {gameObject.name}";
+        Destroy(gameObject);
     }
     public void DoDamage(int hp) 
     {
         hp -= hitPoints;
-        if(hp < 0) { hp = 0; }
-        if (GameManager.Get.player == this) 
+        if(hp <= 0) { hp = 0; Die(); }
+        if (GetComponent<Player>()) 
         {
-            UIManager.Instance.UpdateHealth(hp, hitPoints);
-        }
-        if (hitPoints == 0) 
-        {
-            Die();
+            UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
         }
     }
 

@@ -37,7 +37,7 @@ public class Action : MonoBehaviour
             target.DoDamage(damage);
             message = $"Strong {actor.name} did {damage} damage to weak {target.name}";
         }
-        UIManager.Instance.AddMessage(message, c);
+        UIManager.Get.AddMessage(message, c);
     }
 
 

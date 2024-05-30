@@ -15,14 +15,14 @@ public class HealthBar : MonoBehaviour
     {
         root= GetComponent<UIDocument>().rootVisualElement;
         healthBar = root.Q<VisualElement>("HealthBar");
-        healthLabel = root.Q<Label>("HealthLabel");
+        healthLabel = root.Q<Label>("Label");
     }
     public void SetValues(int currentHitPoints, int maxHitPoints) 
     {
-        int percent = currentHitPoints / maxHitPoints * 100;
+        float percent = (float)currentHitPoints / maxHitPoints * 100;
 
         healthBar.style.width = Length.Percent(percent);
-        healthLabel.text = $"{percent}/{maxHitPoints} HP";
+        healthLabel.text = $"{currentHitPoints}/{maxHitPoints} HP";
     }
 
     // Update is called once per frame

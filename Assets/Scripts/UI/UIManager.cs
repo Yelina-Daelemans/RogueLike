@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private HealthBar healthBarScript;
-    private Messages messageScript;
+    
     public static UIManager Instance;
     private void Awake()
     {
         if(Instance == null) { Instance = this; }
-        else { Destroy(gameObject); }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
 
-        
+
 
     }
+    [Header("Documents")]
+    public HealthBar healthBarScript;
+    public Messages messageScript;
+
     // Start is called before the first frame update
     void Start()
     {
         healthBarScript = GetComponent<HealthBar>();
         messageScript = GetComponent<Messages>();
+    }
+    public static UIManager Get
+    {
+        get => Instance;
     }
     /*
      * In deze functies roep je functies van respectievelijk HealthBar en Messages aan om de waarden door te geven. 
@@ -27,18 +37,12 @@ public class UIManager : MonoBehaviour
      */
     public void UpdateHealth(int current, int max) 
     {
-        if (healthBarScript != null)
-        {
-            healthBarScript.SetValues(current, max);
-        }
+            healthBarScript.GetComponent<HealthBar>().SetValues(current, max);
     }
 
     public void AddMessage(string message, Color color) 
     {
-        if (messageScript != null)
-        {
-            messageScript.AddMessage(message, color);
-        }
+        messageScript.GetComponent<Messages>().AddMessage(message, color);
     }
     // Update is called once per frame
     void Update()
