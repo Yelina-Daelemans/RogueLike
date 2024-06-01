@@ -20,6 +20,26 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public List<Actor> GetNearbyEnemies(Vector3 location)
+    {
+        List<Actor> nearbyEnemies = new List<Actor>();
+
+        // Find all colliders within the specified radius
+        Collider[] hitColliders = Physics.OverlapSphere(location, 5);
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            // Check if the collider's game object has the Actor component
+            Actor actor = hitCollider.GetComponent<Actor>();
+            if (actor != null)
+            {
+                // Add the actor to the list of nearby enemies
+                nearbyEnemies.Add(actor);
+            }
+        }
+
+        return nearbyEnemies;
+    }
     public GameObject GetGameObject(string name, Vector2 position)
     {
         GameObject actor = Instantiate(Resources.Load<GameObject>($"Prefabs/{name}"), new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity);

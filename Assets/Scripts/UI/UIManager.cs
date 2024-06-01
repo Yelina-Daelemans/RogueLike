@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
 {
     
     public static UIManager Instance;
+    public GameObject inventory;
+    public InventoryUI Inventory { get; set; }
     private void Awake()
     {
         if(Instance == null) { Instance = this; }
@@ -13,9 +15,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-
-
     }
     [Header("Documents")]
     public HealthBar healthBarScript;
@@ -24,8 +23,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        healthBarScript = GetComponent<HealthBar>();
-        messageScript = GetComponent<Messages>();
+        Inventory = GetComponent<InventoryUI>();
     }
     public static UIManager Get
     {
@@ -37,7 +35,7 @@ public class UIManager : MonoBehaviour
      */
     public void UpdateHealth(int current, int max) 
     {
-            healthBarScript.GetComponent<HealthBar>().SetValues(current, max);
+        healthBarScript.GetComponent<HealthBar>().SetValues(current, max);
     }
 
     public void AddMessage(string message, Color color) 

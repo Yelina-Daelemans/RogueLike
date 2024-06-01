@@ -12,11 +12,10 @@ public class Messages : MonoBehaviour
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
-        labels[0] = root.Q<Label>("Label1");
-        labels[1] = root.Q<Label>("Label2");
-        labels[2] = root.Q<Label>("Label3");
-        labels[3] = root.Q<Label>("Label4");
-        labels[4] = root.Q<Label>("Label5");
+        for (int i = 0; i < labels.Length; i++)
+        {
+            labels[i] = root.Q<Label>($"Label{i}");
+        }
 
         Clear();
         AddMessage("Welcome to the dungeon, Adventurer!", Color.cyan);

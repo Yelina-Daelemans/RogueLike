@@ -20,9 +20,8 @@ public class HealthBar : MonoBehaviour
     public void SetValues(int currentHitPoints, int maxHitPoints) 
     {
         float percent = (float)currentHitPoints / maxHitPoints * 100;
-
         healthBar.style.width = Length.Percent(percent);
-        healthLabel.text = $"{currentHitPoints}/{maxHitPoints} HP";
+        healthLabel.text = $"{currentHitPoints} / {maxHitPoints} HP";
     }
 
     // Update is called once per frame

@@ -12,8 +12,11 @@ public class Actor : MonoBehaviour
         
         algorithm = new AdamMilVisibility();
         UpdateFieldOfView();
-        if (GameManager.Get.player == this) { UIManager.Get.UpdateHealth(hitPoints, maxHitPoints); }
-        
+        if (GetComponent<Player>())
+        {
+            UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
+        }
+
     }
 
     public void Move(Vector3 direction)
@@ -47,27 +50,48 @@ public class Actor : MonoBehaviour
     public int Power { get; private set; }
     private void Die() 
     {
-        if(GameManager.Get.player == this && GameManager.Get.player == null) { UIManager.Get.AddMessage("You died", Color.red); }
-        foreach(var enemy in GameManager.Get.Enemies) 
-        { if (enemy == this && enemy == null) 
-            { UIManager.Get.AddMessage($"{gameObject.name} is dead!", Color.green); 
-                GameManager.Get.RemoveEnemy(enemy);
-                Destroy(gameObject);
-            } 
+        if (GetComponent<Player>())
+        {
+            UIManager.Get.AddMessage("You Died! Idiot!", Color.red);
+            GameObject grave = GameManager.Get.GetGameObject("Dead", this.transform.position);
+            grave.name = $"Remains of {this.name}";
         }
-        Vector3 currentPosition = transform.position;
-        GameObject Grave = GameManager.Get.GetGameObject("Dead", new Vector2(currentPosition.x, currentPosition.y));
-        Grave.name = $"Remains of {gameObject.name}";
-        Destroy(gameObject);
+        else if (GetComponent<Enemy>())
+        {
+            UIManager.Get.AddMessage($"{this.name} is dead!", Color.green);
+            GameManager.Get.RemoveEnemy(this);
+        }
+        GameObject.Destroy(this.gameObject);
     }
     public void DoDamage(int hp) 
     {
-        hp -= hitPoints;
-        if(hp <= 0) { hp = 0; Die(); }
-        if (GetComponent<Player>()) 
+        hitPoints -= hp;
+        if (hitPoints <= 0)
+        {
+            hitPoints = 0;
+            Die();
+        }
+        if (GetComponent<Player>())
         {
             UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
         }
     }
+    public void Heal(int hp)
+    {
+        hitPoints += hp;
+        if (hitPoints > maxHitPoints)
+        {
+            hitPoints = maxHitPoints;
+        }
+            
+        UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
+            
+         if (GetComponent<Player>() && hitPoints + hp > maxHitPoints) {
+                 int rest = maxHitPoints - hitPoints;
+                UIManager.Get.AddMessage($"The player has been healed with a potion +{rest}", Color.yellow);
+         }
 
+        
+        
+    }
 }

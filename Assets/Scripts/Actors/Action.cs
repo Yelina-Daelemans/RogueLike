@@ -22,7 +22,7 @@ public class Action : MonoBehaviour
     {
         //Bereken de damage. Die is gelijk aan de power van de actor, verminderd met de defense van het target. 
         int damage = actor.Power - target.Defense;
-        
+
         //Als de damage groter dan 0 is, verminder je de hitpoints van het target. 
         //Voeg via UIManager een message toe, afhankelijk van de uitkomst. Je kan de name property van Actor gebruiken.  
         //Je message vermeld de namen van de actor en het target. Als er damage is, dan toont je message ook hoeveel.
@@ -35,7 +35,7 @@ public class Action : MonoBehaviour
         if (damage > 0)
         {
             target.DoDamage(damage);
-            message = $"Strong {actor.name} did {damage} damage to weak {target.name}";
+            message = $"{actor.name} did {damage} damage to {target.name}";
         }
         UIManager.Get.AddMessage(message, c);
     }

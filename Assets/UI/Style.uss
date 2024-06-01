@@ -1,0 +1,5 @@
+.style {
+    color: rgb(255, 255, 255);
+    -unity-font: url('project://database/Assets/UI/VIDEOPHREAK.ttf?fileID=12800000&guid=c4f039c09fe3ae84498e2ff44ac3d569&type=3#VIDEOPHREAK');
+    -unity-font-definition: url('project://database/Assets/UI/VIDEOPHREAK%20SDF.asset?fileID=11400000&guid=71e43ff84c28aa94eb0ea8664089053a&type=2#VIDEOPHREAK SDF');
+}
