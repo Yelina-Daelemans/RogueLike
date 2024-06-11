@@ -7,7 +7,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class MapManager : MonoBehaviour
 {
     private static MapManager instance;
-
+    public int Floor = 0;
 
     private void Awake()
     {
@@ -57,7 +57,11 @@ public class MapManager : MonoBehaviour
 
     private void GenerateDungeon()
     {
-        Tiles = new Dictionary<Vector3Int, TileData>();
+         FloorMap.ClearAllTiles();
+          ObstacleMap.ClearAllTiles();
+           FogMap.ClearAllTiles();
+
+            Tiles = new Dictionary<Vector3Int, TileData>();
         VisibleTiles = new List<Vector3Int>();
 
         var generator = new DungeonGenerator();
@@ -73,7 +77,21 @@ public class MapManager : MonoBehaviour
         SetupFogMap();
     }
 
+    public void MoveUp() 
+    {
+        GameManager.Get.ClearFloor();
+        Floor++;
+        GenerateDungeon();
+        UIManager.Get.UpdateFloorInfo(Floor);
+    }
 
+    public void MoveDown() 
+    {       
+        GameManager.Get.ClearFloor();
+        Floor--;
+        GenerateDungeon();
+        UIManager.Get.UpdateFloorInfo(Floor);
+    }
 
     public bool InBounds(int x, int y) => 0 <= x && x < width && 0 <= y && y < height;
 

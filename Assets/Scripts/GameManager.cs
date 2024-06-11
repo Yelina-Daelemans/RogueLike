@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +12,9 @@ public class GameManager : MonoBehaviour
     public List<Actor> Enemies = new List<Actor>();
     public List<Consumable> Items = new List<Consumable>();
     public Actor player;
+    public List<Ladder> Ladder = new List<Ladder>();
+    public List<Tombstone> Tombstones = new List<Tombstone>();
+    private static string SavePath;
     private void Awake()
     {
         if (instance == null)
@@ -19,26 +25,87 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SavePath = Application.persistentDataPath + "/savefilegame.json";
+        LoadGame();
+    }
+    public static void SaveGameData(Actor actor) 
+    {
+        string json = JsonUtility.ToJson(actor);
+        File.WriteAllText(SavePath, json);
+    }
+    public static void LoadGameData(Actor act) 
+    {
+        if (File.Exists(SavePath)) 
+        {
+            string json = File.ReadAllText(SavePath);
+            JsonUtility.FromJsonOverwrite(json, act);
+        }
+    }
+    public void SaveGame()
+    {
+        if (player != null)
+        {
+            SaveGameData(player);
+        }
+    }
+    public void LoadGame()
+    {
+        if (player != null)
+        {
+            LoadGameData(player);
+        }
+    }
+    public void DeleteSaveGame()
+    {
+        
+        if (File.Exists(SavePath))
+        {
+            File.Delete(SavePath);
+        }
+    }
+    private void OnApplicationQuit()
+    {
+        SaveGame();
+    }
+    public void AddTombStone(Tombstone stone) 
+    {
+        Tombstones.Add(stone);
+    }
+    public void ClearFloor() 
+    {     
+        GameObject.Destroy(gameObject);
+        Enemies.Clear();
+        Items.Clear();
+        Ladder.Clear();
+        Tombstones.Clear();
+    }
+    public void AddLadder(Ladder ladder) 
+    {
+        Ladder.Add(ladder);
+    }
+
+    public Ladder GetLadderAtLocation(Vector3 location) 
+    {
+        foreach (Ladder ladder in Ladder)
+        {
+            if (ladder.transform.position == location) 
+            {
+                return ladder;
+            }
+        }       
+        return null;
     }
     public List<Actor> GetNearbyEnemies(Vector3 location)
     {
-        List<Actor> nearbyEnemies = new List<Actor>();
-
-        // Find all colliders within the specified radius
-        Collider[] hitColliders = Physics.OverlapSphere(location, 5);
-
-        foreach (Collider hitCollider in hitColliders)
+        var result = new List<Actor>();
+        foreach (Actor enemy in Enemies)
         {
-            // Check if the collider's game object has the Actor component
-            Actor actor = hitCollider.GetComponent<Actor>();
-            if (actor != null)
+            if (Vector3.Distance(enemy.transform.position, location) < 5)
             {
-                // Add the actor to the list of nearby enemies
-                nearbyEnemies.Add(actor);
+                result.Add(enemy);
             }
         }
-
-        return nearbyEnemies;
+        return result;
     }
     public GameObject GetGameObject(string name, Vector2 position)
     {
@@ -68,9 +135,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddEnemy(Actor enemy) { Enemies.Add(enemy); }
+    public void AddEnemy(Actor enemy) 
+    {
+
+       UIManager.Get.UpdateFloorInfoEnemies(Enemies.Count);
+        Enemies.Add(enemy); 
+    }
     public void RemoveEnemy(Actor enemy) 
     {
+        UIManager.Get.UpdateFloorInfoEnemies(Enemies.Count);
         if (Enemies.Contains(enemy))
         {
             Enemies.Remove(enemy);

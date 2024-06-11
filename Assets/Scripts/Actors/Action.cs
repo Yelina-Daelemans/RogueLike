@@ -34,10 +34,11 @@ public class Action : MonoBehaviour
         }
         if (damage > 0)
         {
-            target.DoDamage(damage);
+            target.DoDamage(damage, actor);
             message = $"{actor.name} did {damage} damage to {target.name}";
         }
         UIManager.Get.AddMessage(message, c);
+        
     }
 
 

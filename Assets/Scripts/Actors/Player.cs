@@ -42,28 +42,44 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if (context.performed)
         {
-            Vector2 direction = controls.Player.Movement.ReadValue<Vector2>();
-            if ( direction.y > null)
-            {
-                UIManager.Get.Inventory.SelectNextItem();
-            }
-            else if(direction.y < 0)
-            {
-                UIManager.Get.Inventory.SelectPreviousItem();
-            }
-            Move();
+                Vector2 direction = controls.Player.Movement.ReadValue<Vector2>();
+                if (inventoryIsOpen == true && direction.y > 0)
+                {
+                    UIManager.Get.Inventory.SelectPreviousItem();
+                }
+                else if (inventoryIsOpen == true && direction.y < 0)
+                {
+                    UIManager.Get.Inventory.SelectNextItem();
+                }
+                else
+                {
+                    Move();
+                }           
         }
     }
-
+    public void GetLadder(Vector3 location) 
+    {
+        if (GameManager.Get.player != null)
+        {
+            GameManager.Get.GetLadderAtLocation(location);
+        }
+        /*
+         * Is er een ladder, dan kijk je of die naar boven of naar beneden gaat 
+         * en voer je de respectievelijke functie van MapManager uit. 
+        */
+        if (GameManager.Get.Ladder != null && GameObject.Find("Ladder_Down"))
+        {
+            MapManager.Get.MoveDown();
+        }
+        else 
+        {
+            MapManager.Get.MoveUp();
+        }
+    }
     public void OnExit(InputAction.CallbackContext context)
     {
         if (context.performed) 
-        {
-            /*
-             * Nu maak je de OnExit functie af, die gekoppeld is aan de escape toets. 
-             * Daarin kijk je eerst of de inventory open is. Als dat zo is, dan sluit je de inventory via de UIManager en zet je de waarde van inventoryIsOpen, 
-             * droppingItem en usingItem op false. 
-             */
+        {          
             if (inventoryIsOpen == true) 
             {
                 UIManager.Get.Inventory.Hide();
@@ -171,7 +187,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             List<Actor> enemies = GameManager.Get.GetNearbyEnemies(transform.position);
             foreach (Actor enem in enemies)
             {
-                enem.DoDamage(5);
+                enem.DoDamage(5, GetComponent<Actor>());
             }
             UIManager.Get.AddMessage("You did some real emotional damage there", Color.blue);
         }

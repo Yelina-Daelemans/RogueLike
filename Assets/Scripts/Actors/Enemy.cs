@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 MoveAlongPath(gridPosition);
+
             }
         }
     }

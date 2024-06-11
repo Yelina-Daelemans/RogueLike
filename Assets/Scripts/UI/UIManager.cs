@@ -7,7 +7,11 @@ public class UIManager : MonoBehaviour
     
     public static UIManager Instance;
     public GameObject inventory;
+    public FloorInfo floor;
+    public FloorInfo enemiesLeft;
+
     public InventoryUI Inventory { get; set; }
+    
     private void Awake()
     {
         if(Instance == null) { Instance = this; }
@@ -19,7 +23,7 @@ public class UIManager : MonoBehaviour
     [Header("Documents")]
     public HealthBar healthBarScript;
     public Messages messageScript;
-
+    public HealthBar XpBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +46,19 @@ public class UIManager : MonoBehaviour
     {
         messageScript.GetComponent<Messages>().AddMessage(message, color);
     }
+    public void UpdateXp(int xp)
+    {
+        XpBar.GetComponent<HealthBar>().SetXP(xp);
+    }
+    public void UpdateFloorInfo(int fl) 
+    {
+        floor.GetComponent<FloorInfo>().SetFloorLabel(fl);
+    }
+    public void UpdateFloorInfoEnemies(int enem) 
+    {
+        enemiesLeft.GetComponent<FloorInfo>().SetEnemyLabel(enem);
+    }
+
     // Update is called once per frame
     void Update()
     {

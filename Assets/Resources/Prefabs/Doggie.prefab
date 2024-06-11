@@ -105,6 +105,9 @@ MonoBehaviour:
   hitPoints: 8
   defense: 0
   power: 3
+  level: 1
+  Xp: 8
+  xpToNextLevel: 0
 --- !u!114 &3320794112495950126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,9 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d024f6fd53064d4b88650ec1866ced9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  isFighting: 0
-  algorithm: {fileID: 0}
+  confused: 0
 --- !u!114 &492269251202695148
 MonoBehaviour:
   m_ObjectHideFlags: 0

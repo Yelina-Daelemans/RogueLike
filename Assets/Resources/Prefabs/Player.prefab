@@ -104,7 +104,10 @@ MonoBehaviour:
   maxHitPoints: 30
   hitPoints: 30
   defense: 2
-  power: 4
+  power: 20
+  level: 1
+  Xp: 0
+  xpToNextLevel: 50
 --- !u!114 &4288702088314335506
 MonoBehaviour:
   m_ObjectHideFlags: 0

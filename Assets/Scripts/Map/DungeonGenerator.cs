@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
@@ -9,6 +10,14 @@ public class DungeonGenerator : MonoBehaviour
     private int maxRooms;
     private int maxItems;
     List<Room> rooms = new List<Room>();
+    public int CurrentFloor;
+    public List<string> Enemynames = new List<string>() { "Doggie", "Dog", "Medusa", "Gnome", "Dragon_Ghost", "Scary cat", "Roundy", "Ranny", "Ghost_Dog", "The Almight Eye" };
+    public int floors;
+    public void SetCurrentFloor(int floor) 
+    {
+        CurrentFloor = floor;
+        floors = CurrentFloor;
+    }
     public void SetSize(int width, int height)
     {
         this.width = width;
@@ -77,6 +86,20 @@ public class DungeonGenerator : MonoBehaviour
             PlaceItems(room, maxItems);
         }
         var player = GameManager.Get.GetGameObject("Player", rooms[0].Center());
+        var ladder =  GameManager.Get.GetGameObject("Ladder_Up", rooms[maxRooms].Center());
+        //Als de player al bestaat, dan pas je zijn positie aan en zet je hem in het midden van de eerste kamer. 
+        if (player != null)
+        {
+             player.transform.position = new Vector3(rooms[0].Center().x, rooms[0].Center().y);
+        }
+        else if (player == null)
+        {
+            GameManager.Get.GetGameObject("Player", rooms[0].Center());
+        }
+        if (CurrentFloor > 0)
+        {
+            GameManager.Get.GetGameObject("Ladder_Down", rooms[maxRooms].Center());
+        }
     }
     private bool TrySetWallTile(Vector3Int pos)
     {
@@ -158,8 +181,10 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
+    
     private void PlaceEnemies(Room room, int maxEnemies)
     {
+
         // the number of enemies we want 
         int num = Random.Range(0, maxEnemies + 1);
         for (int counter = 0; counter < num; counter++)
@@ -176,6 +201,15 @@ public class DungeonGenerator : MonoBehaviour
             {
                GameManager.Get.GetGameObject("Doggie", new Vector2(x, y));
             }
+        }
+        /*
+     * Gebruik deze lijst in de functie PlaceEnemies. Het is de bedoeling dat lagere levels vooral zwakkere monsters hebben, 
+     * maar dat de kans op sterkere monsters groter wordt naarmate je dieper in de dungeon gaat. 
+     */
+        if (floors != CurrentFloor) 
+        {
+            GameManager.Get.GetGameObject(Enemynames[CurrentFloor], new Vector2(rooms[0].X, rooms[0].Y));
+            CurrentFloor = floors;
         }
     }
 }

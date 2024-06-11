@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Actor : MonoBehaviour
@@ -15,6 +16,8 @@ public class Actor : MonoBehaviour
         if (GetComponent<Player>())
         {
             UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
+            UIManager.Get.UpdateXp(Xp);
+
         }
 
     }
@@ -44,26 +47,49 @@ public class Actor : MonoBehaviour
     [SerializeField] private int hitPoints;
     [SerializeField] private int defense;
     [SerializeField] private int power;
+    [SerializeField] private int level;
+    [SerializeField] private int Xp;
+    [SerializeField] private int xpToNextLevel;
+
     public int MaxHitPoints { get; private set; }
     public int HitPoints { get; private set; }
     public int Defense { get; private set; }
     public int Power { get; private set; }
+    public int Level { get; private set; }
+    public int XP { get; private set; }
+    public int XPToNextLevel { get; private set; }
+
+    public void AddXp(int xp) 
+    {
+        if (xp > xpToNextLevel) 
+        {
+            Xp = xp;
+            level++;
+           xpToNextLevel = (int) math.round(xpToNextLevel * 1.7f);
+            maxHitPoints += 6;
+            defense += 3;
+            power += 4;
+            UIManager.Get.UpdateXp(xp);
+            UIManager.Get.AddMessage("Congrats you are level up", Color.green);
+        }
+    }
     private void Die() 
     {
         if (GetComponent<Player>())
         {
-            UIManager.Get.AddMessage("You Died! Idiot!", Color.red);
-            GameObject grave = GameManager.Get.GetGameObject("Dead", this.transform.position);
-            grave.name = $"Remains of {this.name}";
+            UIManager.Get.AddMessage("You died!", Color.red); //Red
         }
-        else if (GetComponent<Enemy>())
+        else
         {
-            UIManager.Get.AddMessage($"{this.name} is dead!", Color.green);
-            GameManager.Get.RemoveEnemy(this);
+            UIManager.Get.AddMessage($"{name} is dead!", Color.green); //Light Orange
         }
-        GameObject.Destroy(this.gameObject);
+        GameManager.Get.GetGameObject("Dead", transform.position).name = $"Remains of {name}";
+        GameManager.Get.RemoveEnemy(this);
+        Destroy(gameObject);
+        GameManager.Get.DeleteSaveGame();
     }
-    public void DoDamage(int hp) 
+
+    public void DoDamage(int hp, Actor attacker) 
     {
         hitPoints -= hp;
         if (hitPoints <= 0)
@@ -74,6 +100,15 @@ public class Actor : MonoBehaviour
         if (GetComponent<Player>())
         {
             UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
+        }
+        //Wanneer de actor sterft, kijk je of de attacker de player is.
+        if (GetComponent<Actor>() == null)
+        {
+            if (attacker.GetComponent<Player>()) 
+            {
+                AddXp(Xp);                              
+            }
+            
         }
     }
     public void Heal(int hp)
