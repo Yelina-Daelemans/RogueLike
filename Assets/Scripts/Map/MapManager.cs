@@ -53,6 +53,7 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         GenerateDungeon();
+
     }
 
     private void GenerateDungeon()

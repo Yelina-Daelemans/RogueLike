@@ -8,7 +8,7 @@ public class Ladder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       Up =  GameManager.Get.GetLadderAtLocation(Vector3.up);
+       Up =  GameManager.Get.GetLadderAtLocation(Vector2.up);
     }
 
     // Update is called once per frame

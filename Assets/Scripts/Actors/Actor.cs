@@ -81,6 +81,7 @@ public class Actor : MonoBehaviour
         }
         else
         {
+            AddXp(Xp);
             UIManager.Get.AddMessage($"{name} is dead!", Color.green); //Light Orange
         }
         GameManager.Get.GetGameObject("Dead", transform.position).name = $"Remains of {name}";
